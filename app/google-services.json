@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "663374973864",
+    "firebase_url": "https://lisa-4feef-default-rtdb.firebaseio.com",
+    "project_id": "lisa-4feef",
+    "storage_bucket": "lisa-4feef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663374973864:android:928031c6f9a1e158116b9d",
+        "android_client_info": {
+          "package_name": "lissabuy.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663374973864-mi7b126ehi9v9cbgfkpb7l34rev8p3v9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lissabuy.com",
+            "certificate_hash": "88538ad4e3b96eb9c47762f7009c2728a6004a8e"
+          }
+        },
+        {
+          "client_id": "663374973864-6olt1cd2fit3te4abfp2gitefv1var8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8XazsM-gcCvQDl4gW_AWPS4tYjHjyFN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663374973864-6olt1cd2fit3te4abfp2gitefv1var8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
