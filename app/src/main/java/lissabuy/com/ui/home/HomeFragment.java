@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
         }
     }
     private void getCategories() {
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Conf/Categories").limitToFirst(4);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Conf/Categories").limitToFirst(6);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

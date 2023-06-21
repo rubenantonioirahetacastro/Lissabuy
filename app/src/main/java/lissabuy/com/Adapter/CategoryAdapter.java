@@ -1,5 +1,7 @@
 package lissabuy.com.Adapter;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import java.util.List;
 
 import lissabuy.com.Model.CategoryModel;
 import lissabuy.com.R;
+import lissabuy.com.databinding.FragmentAccountBinding;
+import lissabuy.com.ui.ItemsFragment;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private Context mContext;
@@ -42,7 +46,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.category_title.setText(mData.get(position).getCategory_title());
         Glide.with(mContext).load(mData.get(position).getCategory_img()).into(holder.category_img);
-    }
+
+           }
 
     @Override
     public int getItemCount() {
