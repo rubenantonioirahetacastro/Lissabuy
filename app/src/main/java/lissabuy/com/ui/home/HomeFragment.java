@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,26 +35,27 @@ import lissabuy.com.Adapter.CategoryAdapter;
 import lissabuy.com.Model.CategoryModel;
 import lissabuy.com.R;
 import lissabuy.com.databinding.FragmentHomeBinding;
+import lissabuy.com.ui.ItemsFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickListener {
     private static final String TAG = "Errors";
     private FragmentHomeBinding binding;
     private CategoryAdapter _categoryAdapter;
     private Query mDatabaseRef;
     private List<CategoryModel> _categoryModel;
-    private RecyclerView _rvCategory, _rvBestSeller, _rvOffers;
+    public  RecyclerView _rvCategory;
     Toolbar toolbar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //View view = inflater.inflate(R.layout.fragment_home, container, false);
-        _rvCategory = (RecyclerView) root.findViewById(R.id.rv_Category);
+        _rvCategory= (RecyclerView) root.findViewById(R.id.rv_Category);
 
         setHasOptionsMenu(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -63,6 +65,21 @@ public class HomeFragment extends Fragment {
         _categoryModel = new ArrayList<>();
         return root;
     }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        try {
+            getCategories();
+        }
+        catch (Exception exception){
+            //do method to try save errors
+            Log.d(TAG, exception.toString());
+        }
+    }
+    private CategoryAdapter.ItemClickListener clickListener;
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
@@ -79,17 +96,7 @@ public class HomeFragment extends Fragment {
        // }
 
     }
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        try {
-            getCategories();
-        }
-        catch (Exception exception){
-            //do method to try save errors
-            Log.d(TAG, exception.toString());
-        }
-    }
+
     private void getCategories() {
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Conf/Categories").limitToFirst(6);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
@@ -102,7 +109,7 @@ public class HomeFragment extends Fragment {
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
                 _rvCategory.setLayoutManager(layoutManager);
-                _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel);
+                _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel, HomeFragment.this);
                 _rvCategory.setAdapter(_categoryAdapter);
             }
             @Override
@@ -115,5 +122,14 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onItemClick(CategoryModel dataModel) {
+        Fragment fragment = ItemsFragment.newInstance();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment ,"");
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

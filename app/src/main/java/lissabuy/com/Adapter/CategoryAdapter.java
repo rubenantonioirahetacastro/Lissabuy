@@ -1,5 +1,6 @@
 package lissabuy.com.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -23,13 +24,15 @@ import lissabuy.com.ui.ItemsFragment;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private Context mContext;
+    private ItemClickListener clickListener;
     private List<CategoryModel> mData;
     private List<String> list_category;
     private DatabaseReference FBReference;
 
-    public CategoryAdapter(Context context, List<CategoryModel> mData) {
+    public CategoryAdapter(Context context, List<CategoryModel> mData, ItemClickListener clickListener) {
         this.mContext = context;
         this.mData = mData;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -43,11 +46,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.category_title.setText(mData.get(position).getCategory_title());
         Glide.with(mContext).load(mData.get(position).getCategory_img()).into(holder.category_img);
-
-           }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onItemClick(mData.get(position));
+            }
+        });
+    }
 
     @Override
     public int getItemCount() {
@@ -64,5 +72,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             category_img = (ImageView) itemView.findViewById(R.id.category_img);
             category_item = itemView.findViewById(R.id.category_item);
         }
+    }
+
+    public  interface ItemClickListener{
+        public  void onItemClick(CategoryModel dataModel);
     }
 }
