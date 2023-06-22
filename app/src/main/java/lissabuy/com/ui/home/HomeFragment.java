@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
     private CategoryAdapter _categoryAdapter;
     private Query mDatabaseRef;
     private List<CategoryModel> _categoryModel;
-    public  RecyclerView _rvCategory;
+    private   RecyclerView _rvCategory;
     Toolbar toolbar;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,13 +56,13 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
         View root = binding.getRoot();
 
         _rvCategory= (RecyclerView) root.findViewById(R.id.rv_Category);
+        _categoryModel = new ArrayList<>();
 
         setHasOptionsMenu(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         //  ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff00DDED));
         ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7f72c5")));
 
-        _categoryModel = new ArrayList<>();
         return root;
     }
 
@@ -128,7 +128,9 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
     public void onItemClick(CategoryModel dataModel) {
         Fragment fragment = ItemsFragment.newInstance();
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.nav_host_fragment_activity_main, fragment ,"");
+       // transaction.replace(R.id.nav_host_fragment_activity_main, fragment ,"");
+        transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("ItemsFragment"));
+        transaction.add(R.id.nav_host_fragment_activity_main, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

@@ -37,5 +37,14 @@
             android:id="@+id/action_shopFragment_to_navigation_home2"
             app:destination="@id/navigation_home" />
     </fragment>
+    <fragment
+        android:id="@+id/itemsFragment"
+        android:name="lissabuy.com.ui.ItemsFragment"
+        android:label="fragment_items"
+        tools:layout="@layout/fragment_items" >
+        <action
+            android:id="@+id/action_itemsFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
 </navigation>
