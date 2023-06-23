@@ -1,12 +1,22 @@
 package lissabuy.com.ui;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toolbar;
 
 import lissabuy.com.R;
 
@@ -19,6 +29,36 @@ public class ItemsFragment extends Fragment {
 
     public ItemsFragment() {
         // Required empty public constructor
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            // Mostrar el botón de navegación "Up"
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Productos");
+            // Establecer el ícono del botón de navegación "Up"
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+        }
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == android.R.id.home) {
+            // Handle the Up button click here
+            getActivity().onBackPressed(); // Example: Navigate back to the previous screen
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public static ItemsFragment newInstance() {

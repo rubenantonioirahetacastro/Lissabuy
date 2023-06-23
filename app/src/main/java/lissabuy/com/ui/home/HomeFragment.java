@@ -15,6 +15,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -63,6 +64,14 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
         //  ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff00DDED));
         ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#7f72c5")));
 
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            // Mostrar el botón de navegación "Up"
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setTitle("Home");
+            // Establecer el ícono del botón de navegación "Up"
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+        }
         return root;
     }
 
@@ -127,11 +136,14 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
     @Override
     public void onItemClick(CategoryModel dataModel) {
         Fragment fragment = ItemsFragment.newInstance();
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-       // transaction.replace(R.id.nav_host_fragment_activity_main, fragment ,"");
-        transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("ItemsFragment"));
-        transaction.add(R.id.nav_host_fragment_activity_main, fragment);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+        // transaction.replace(R.id.nav_host_fragment_activity_main, fragment ,"");
+       // transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("ItemsFragment"));
+       // transaction.add(R.id.nav_host_fragment_activity_main, fragment);
+       // transaction.addToBackStack(null);
+       // transaction.commit();
     }
 }
