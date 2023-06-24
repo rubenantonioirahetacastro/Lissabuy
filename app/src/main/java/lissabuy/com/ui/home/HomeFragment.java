@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
 
     @Override
     public void onItemClick(CategoryModel dataModel) {
-        Fragment fragment = ItemsFragment.newInstance();
+        Fragment fragment = ItemsFragment.newInstance(dataModel.category_title, dataModel.getCategory_id());
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
         transaction.addToBackStack(null);
