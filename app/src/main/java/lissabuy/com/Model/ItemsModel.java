@@ -3,14 +3,14 @@ package lissabuy.com.Model;
 public class ItemsModel {
 
     public String description;
-    public String price;
+    public Double price;
     public String title;
     public String image;
 
     public ItemsModel() {
     }
 
-    public ItemsModel(String description, String price, String title, String image) {
+    public ItemsModel(String description, Double price, String title, String image) {
         this.description = description;
         this.price = price;
         this.title = title;
@@ -25,11 +25,11 @@ public class ItemsModel {
         this.description = description;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
                 _rvCategory.setLayoutManager(layoutManager);
-                _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel, HomeFragment.this);
+                _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel,HomeFragment.this);
                 _rvCategory.setAdapter(_categoryAdapter);
             }
             @Override

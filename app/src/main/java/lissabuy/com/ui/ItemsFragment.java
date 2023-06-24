@@ -7,22 +7,43 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import lissabuy.com.Adapter.CategoryAdapter;
+import lissabuy.com.Adapter.ItemsAdapter;
+import lissabuy.com.Model.CategoryModel;
+import lissabuy.com.Model.ItemsModel;
 import lissabuy.com.R;
+import lissabuy.com.ui.home.HomeFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ItemsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ItemsFragment extends Fragment {
-
+public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickListener {
+    private static final String TAG = "Errors";
+    private ItemsAdapter _itemsAdapter;
+    private Query mDatabaseRef;
+    private List<ItemsModel> _itemsModel;
+    private RecyclerView _rvItems;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -30,35 +51,6 @@ public class ItemsFragment extends Fragment {
     public ItemsFragment() {
         // Required empty public constructor
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            // Mostrar el botón de navegación "Up"
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Productos");
-            // Establecer el ícono del botón de navegación "Up"
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
-        }
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-
-        if (itemId == android.R.id.home) {
-            // Handle the Up button click here
-            getActivity().onBackPressed(); // Example: Navigate back to the previous screen
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public static ItemsFragment newInstance(String param1, String param2) {
@@ -86,12 +78,74 @@ public class ItemsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_items, container, false);
 
+        _rvItems= (RecyclerView) view.findViewById(R.id.rv_Items);
+        _itemsModel = new ArrayList<>();
+
         TextView txt_title = view.findViewById(R.id.txt_title);
         txt_title.setText(mParam1);
-
-
-
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            // Mostrar el botón de navegación "Up"
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Productos");
+            // Establecer el ícono del botón de navegación "Up"
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+        }
+        try {
+            getItems();
+        }
+        catch (Exception exception){
+            //do method to try save errors
+            Log.d(TAG, exception.toString());
+        }
+
+    }
+    private void getItems() {
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Product").limitToFirst(20);
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                _itemsModel.removeAll(_itemsModel);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ItemsModel img = snapshot.getValue(ItemsModel.class);
+                    _itemsModel.add(img);
+                }
+                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                _rvItems.setLayoutManager(layoutManager);
+                _itemsAdapter = new ItemsAdapter(getActivity(), _itemsModel,ItemsFragment.this);
+                _rvItems.setAdapter(_itemsAdapter);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, databaseError.toString());
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == android.R.id.home) {
+            // Handle the Up button click here
+            getActivity().onBackPressed(); // Example: Navigate back to the previous screen
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onItemClick(ItemsModel dataModel) {
+        //DO CLICK FRAGMENT
     }
 }
