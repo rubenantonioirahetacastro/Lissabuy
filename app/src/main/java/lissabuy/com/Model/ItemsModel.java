@@ -1,20 +1,43 @@
 package lissabuy.com.Model;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class ItemsModel {
 
+    public int count;
     public String description;
-    public Double price;
-    public String title;
+    public int id_category;
     public String image;
+    public float price;
+    public String seller;
+    public int state;
+    public int stock;
+    public String title;
+    public String uid_user;
 
     public ItemsModel() {
     }
 
-    public ItemsModel(String description, Double price, String title, String image) {
+    public ItemsModel(int count, String description, int id_category, String image, float price, String seller, int state, int stock, String title, String uid_user) {
+        this.count = count;
         this.description = description;
-        this.price = price;
-        this.title = title;
+        this.id_category = id_category;
         this.image = image;
+        this.price = price;
+        this.seller = seller;
+        this.state = state;
+        this.stock = stock;
+        this.title = title;
+        this.uid_user = uid_user;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public String getDescription() {
@@ -25,12 +48,52 @@ public class ItemsModel {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public int getId_category() {
+        return id_category;
+    }
+
+    public void setId_category(int id_category) {
+        this.id_category = id_category;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getTitle() {
@@ -41,11 +104,11 @@ public class ItemsModel {
         this.title = title;
     }
 
-    public String getImage() {
-        return image;
+    public String getUid_user() {
+        return uid_user;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setUid_user(String uid_user) {
+        this.uid_user = uid_user;
     }
 }

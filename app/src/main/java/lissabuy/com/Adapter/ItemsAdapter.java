@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import lissabuy.com.Model.CategoryModel;
@@ -47,9 +48,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.item_title.setText(mData.get(position).getTitle());
         Glide.with(mContext).load(mData.get(position).getImage()).into(holder.item_img);
+        holder.item_title.setText(mData.get(position).getTitle());
+        holder.item_seller.setText(mData.get(position).getSeller());
 
+        double importe =mData.get(position).getPrice();
+        NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
+        holder.item_price.setText(formatoImporte.format(importe));
+        holder.item_count.setText(Float.toString(mData.get(position).getCount()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,13 +71,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView item_img;
-        TextView item_title, item_price,item_store;
+        TextView item_title, item_price,item_seller, item_count;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item_img = itemView.findViewById(R.id.item_img);
             item_title = itemView.findViewById(R.id.item_title);
             item_price = itemView.findViewById(R.id.item_price);
-            item_store = itemView.findViewById(R.id.item_store);
+            item_seller = itemView.findViewById(R.id.item_seller);
+            item_count = itemView.findViewById(R.id.item_count);
         }
     }
     public  interface ItemClickListener{

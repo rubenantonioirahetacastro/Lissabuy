@@ -80,9 +80,6 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
 
         _rvItems= (RecyclerView) view.findViewById(R.id.rv_Items);
         _itemsModel = new ArrayList<>();
-
-        TextView txt_title = view.findViewById(R.id.txt_title);
-        txt_title.setText(mParam1);
         return view;
     }
 
