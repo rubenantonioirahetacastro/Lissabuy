@@ -5,9 +5,9 @@ import java.util.List;
 
 public class ItemsModel {
 
+    public int category_id;
     public int count;
     public String description;
-    public int id_category;
     public String image;
     public float price;
     public String seller;
@@ -19,10 +19,10 @@ public class ItemsModel {
     public ItemsModel() {
     }
 
-    public ItemsModel(int count, String description, int id_category, String image, float price, String seller, int state, int stock, String title, String uid_user) {
+    public ItemsModel(int category_id, int count, String description, String image, float price, String seller, int state, int stock, String title, String uid_user) {
+        this.category_id = category_id;
         this.count = count;
         this.description = description;
-        this.id_category = id_category;
         this.image = image;
         this.price = price;
         this.seller = seller;
@@ -30,6 +30,14 @@ public class ItemsModel {
         this.stock = stock;
         this.title = title;
         this.uid_user = uid_user;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
     }
 
     public int getCount() {
@@ -46,14 +54,6 @@ public class ItemsModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getId_category() {
-        return id_category;
-    }
-
-    public void setId_category(int id_category) {
-        this.id_category = id_category;
     }
 
     public String getImage() {

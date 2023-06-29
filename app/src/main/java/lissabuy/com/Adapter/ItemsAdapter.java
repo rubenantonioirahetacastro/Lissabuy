@@ -52,14 +52,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         holder.item_title.setText(mData.get(position).getTitle());
         holder.item_seller.setText(mData.get(position).getSeller());
 
-        double importe =mData.get(position).getPrice();
-        NumberFormat formatoImporte = NumberFormat.getCurrencyInstance();
-        holder.item_price.setText(formatoImporte.format(importe));
+        double imports =mData.get(position).getPrice();
+        NumberFormat formatImport = NumberFormat.getCurrencyInstance();
+        holder.item_price.setText(formatImport.format(imports));
         holder.item_count.setText(Float.toString(mData.get(position).getCount()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //DO CLICK
+                clickListener.onItemClick(mData.get(position));
             }
         });
     }
