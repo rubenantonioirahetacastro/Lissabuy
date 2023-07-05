@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import lissabuy.com.Adapter.CategoryAdapter;
 import lissabuy.com.Adapter.ItemsAdapter;
+import lissabuy.com.Model.CategoryModel;
 import lissabuy.com.Model.ItemsModel;
 import lissabuy.com.R;
 
@@ -113,6 +116,7 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
                 _itemsModel.removeAll(_itemsModel);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ItemsModel img = snapshot.getValue(ItemsModel.class);
+                    String key = dataSnapshot.getKey();
                     _itemsModel.add(img);
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -142,9 +146,12 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onItemClick(ItemsModel dataModel) {
-        //DO CLICK FRAGMENT
+        Fragment fragment = ProductFragment.newInstance("1", "2");
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

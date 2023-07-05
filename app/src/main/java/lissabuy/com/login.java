@@ -58,7 +58,7 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        getSupportActionBar().hide();
         mSignInButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

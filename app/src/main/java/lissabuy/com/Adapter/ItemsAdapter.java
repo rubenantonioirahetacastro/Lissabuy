@@ -1,5 +1,6 @@
 package lissabuy.com.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +48,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(mContext).load(mData.get(position).getImage()).into(holder.item_img);
         holder.item_title.setText(mData.get(position).getTitle());
         holder.item_seller.setText(mData.get(position).getSeller());

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -23,6 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +50,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
     private Query mDatabaseRef;
     private List<CategoryModel> _categoryModel;
     private   RecyclerView _rvCategory;
-    Toolbar toolbar;
+    private FirebaseAuth mAuth;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,13 +61,21 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
         _rvCategory= (RecyclerView) root.findViewById(R.id.rv_Category);
         _categoryModel = new ArrayList<>();
+        TextView txt_userhome = root.findViewById(R.id.txt_userhome);
+        ImageView img_userhome = root.findViewById(R.id.img_userhome);
+
+        txt_userhome.setText(currentUser.getDisplayName());
+        Glide.with(this).load(currentUser.getPhotoUrl()).into(img_userhome);
 
         setHasOptionsMenu(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         //  ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff00DDED));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF6200EE")));
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#a7d0d2")));
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
@@ -88,7 +100,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
             Log.d(TAG, exception.toString());
         }
     }
-    private CategoryAdapter.ItemClickListener clickListener;
+    //private CategoryAdapter.ItemClickListener clickListener;
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -117,7 +129,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
                     CategoryModel img = snapshot.getValue(CategoryModel.class);
                     _categoryModel.add(img);
                 }
-                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
                 _rvCategory.setLayoutManager(layoutManager);
                 _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel,HomeFragment.this);
                 _rvCategory.setAdapter(_categoryAdapter);
@@ -141,10 +153,5 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
         transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-        // transaction.replace(R.id.nav_host_fragment_activity_main, fragment ,"");
-       // transaction.hide(getActivity().getSupportFragmentManager().findFragmentByTag("ItemsFragment"));
-       // transaction.add(R.id.nav_host_fragment_activity_main, fragment);
-       // transaction.addToBackStack(null);
-       // transaction.commit();
     }
 }
