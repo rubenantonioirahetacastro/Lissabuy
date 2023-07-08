@@ -116,7 +116,8 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
                 _itemsModel.removeAll(_itemsModel);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ItemsModel img = snapshot.getValue(ItemsModel.class);
-                    String key = dataSnapshot.getKey();
+                    String key = snapshot.getKey();
+                    img.key = key;
                     _itemsModel.add(img);
                 }
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -148,7 +149,7 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
 
     @Override
     public void onItemClick(ItemsModel dataModel) {
-        Fragment fragment = ProductFragment.newInstance("1", "2");
+        Fragment fragment = ProductFragment.newInstance(dataModel.getKey(), "2");
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
         transaction.addToBackStack(null);

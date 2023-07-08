@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ItemsModel {
-
+    public String key;
     public int category_id;
     public int count;
     public String description;
@@ -19,17 +19,12 @@ public class ItemsModel {
     public ItemsModel() {
     }
 
-    public ItemsModel(int category_id, int count, String description, String image, float price, String seller, int state, int stock, String title, String uid_user) {
-        this.category_id = category_id;
-        this.count = count;
-        this.description = description;
-        this.image = image;
-        this.price = price;
-        this.seller = seller;
-        this.state = state;
-        this.stock = stock;
-        this.title = title;
-        this.uid_user = uid_user;
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public int getCategory_id() {
