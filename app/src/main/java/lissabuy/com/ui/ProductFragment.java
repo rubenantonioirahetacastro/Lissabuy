@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,14 +72,7 @@ public class ProductFragment extends Fragment {
 
         TextView txt_product= view.findViewById(R.id.txt_product);
         txt_product.setText(mParam1);
-        ImageSlider imageSlider = view.findViewById(R.id.image_slider);
 
-        List<SlideModel> imageList = new ArrayList<>();
-        imageList.add(new SlideModel("https://bit.ly/2YoJ77H", null));
-        imageList.add(new SlideModel("https://bit.ly/2BteuF2",null));
-        imageList.add(new SlideModel("https://bit.ly/3fLJf72", null));
-
-        imageSlider.setImageList(imageList);
 
         return view;
     }

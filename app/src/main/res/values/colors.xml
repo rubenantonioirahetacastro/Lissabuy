@@ -3,9 +3,11 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorMorado">#6853a0</color>
 
     <color name="colorPrimary">#a7d0d2</color>
     <color name="colorPrimaryDark">#254b5e</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorGray">#CCC</color>
+
 </resources>

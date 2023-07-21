@@ -51,7 +51,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(mContext).load(mData.get(position).getImage()).into(holder.item_img);
         holder.item_title.setText(mData.get(position).getTitle());
-        holder.item_seller.setText(mData.get(position).getSeller());
 
         double imports =mData.get(position).getPrice();
         NumberFormat formatImport = NumberFormat.getCurrencyInstance();
@@ -72,15 +71,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView item_img;
-        TextView item_title, item_price,item_seller, item_count;
+        TextView item_title, item_price, item_count;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item_img = itemView.findViewById(R.id.item_img);
             item_title = itemView.findViewById(R.id.item_title);
             item_price = itemView.findViewById(R.id.item_price);
-            item_seller = itemView.findViewById(R.id.item_seller);
+         //   item_seller = itemView.findViewById(R.id.item_seller);
             item_count = itemView.findViewById(R.id.item_count);
+            item_img = itemView.findViewById(R.id.item_img);
+
         }
     }
     public  interface ItemClickListener{
