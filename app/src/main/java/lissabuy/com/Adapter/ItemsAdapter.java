@@ -80,7 +80,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             item_price = itemView.findViewById(R.id.item_price);
          //   item_seller = itemView.findViewById(R.id.item_seller);
             item_count = itemView.findViewById(R.id.item_count);
-            item_img = itemView.findViewById(R.id.item_img);
 
         }
     }

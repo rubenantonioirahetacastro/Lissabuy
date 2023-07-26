@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProductFragment">
 
-
-    <ImageSwitcher
+    <include
         android:id="@+id/imageSwitcher"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/colorGray" />
+        android:layout_height="250dp"
+        layout="@layout/viewpager_slide" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="$18.99"
+                android:id="@+id/priceTextView"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -45,7 +44,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Puma Running Shoes"
+            android:id="@+id/titleTextView"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -53,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."
             android:textColor="#828282"
+            android:id="@+id/descriptionTextView"
             android:textSize="12sp" />
 
     </LinearLayout>
@@ -76,7 +75,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="?android:attr/actionBarSize">
 
         <ImageButton
             android:id="@+id/transparentButton"
@@ -85,7 +84,7 @@
             android:background="@drawable/button_gray_border"
             android:clickable="true"
             android:focusable="true"
-            android:padding="16dp"
+            android:padding="12dp"
             android:src="@drawable/ic_cart" />
 
 
@@ -96,7 +95,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/button_shape"
-            android:padding="16dp"
             android:text="Check Out!"
             android:textAllCaps="false"
             android:textColor="@android:color/white"

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,6 +25,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class login extends AppCompatActivity {
 
@@ -33,6 +41,8 @@ public class login extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     SignInButton mSignInButtonGoogle;
     private TextView txt_terms;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Conf/Exceptions");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +72,16 @@ public class login extends AppCompatActivity {
         mSignInButtonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                try {
+                    signIn();
+                }
+                catch (Exception e){
+                    myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.getMessage());
+                }
             }
         });
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -73,6 +89,7 @@ public class login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -86,8 +103,7 @@ public class login extends AppCompatActivity {
                 //   Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.getMessage());
             }
         }
     }
@@ -103,8 +119,7 @@ public class login extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(task.getException());
                             updateUI(null);
                         }
                     }
@@ -121,9 +136,13 @@ public class login extends AppCompatActivity {
     }
     //Intent to Home
     private void home() {
-        Intent intent = new Intent(login.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        try {
+            Intent intent = new Intent(login.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        catch (Exception e){
+            myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.getMessage());
+        }
     }
-
 }
