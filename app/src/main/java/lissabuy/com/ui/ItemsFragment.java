@@ -25,6 +25,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lissabuy.com.Adapter.CategoryAdapter;
@@ -48,8 +49,10 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private int mParam2;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Conf/Exceptions");
+
     public ItemsFragment() {
-        // Required empty public constructor
         setHasOptionsMenu(true);
     }
 
@@ -75,33 +78,26 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_items, container, false);
-
         _rvItems= (RecyclerView) view.findViewById(R.id.rv_Items);
         _itemsModel = new ArrayList<>();
-
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            // Mostrar el botón de navegación "Up"
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(mParam1);
-            // Establecer el ícono del botón de navegación "Up"
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
-        }
         try {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setTitle(mParam1);
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+            }
             getItems();
         }
-        catch (Exception exception){
-            //do method to try save errors
-            Log.d(TAG, exception.toString());
+        catch (Exception e){
+            myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.getMessage());
         }
 
     }
@@ -128,7 +124,7 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Maneja el error
+                myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(databaseError.getMessage());
             }
         });
     }
@@ -137,13 +133,10 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-
         if (itemId == android.R.id.home) {
-            // Handle the Up button click here
-            getActivity().onBackPressed(); // Example: Navigate back to the previous screen
+            getActivity().onBackPressed();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

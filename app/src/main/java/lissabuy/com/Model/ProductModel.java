@@ -1,7 +1,10 @@
 package lissabuy.com.Model;
 
+import androidx.annotation.Keep;
+
 import java.util.List;
 
+@Keep
 public class ProductModel {
     public String key;
     public int category_id;

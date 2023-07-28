@@ -35,6 +35,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import lissabuy.com.Adapter.CategoryAdapter;
@@ -44,46 +45,43 @@ import lissabuy.com.databinding.FragmentHomeBinding;
 import lissabuy.com.ui.ItemsFragment;
 
 public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickListener {
-    private static final String TAG = "Errors";
-    private FragmentHomeBinding binding;
-    private CategoryAdapter _categoryAdapter;
-    private Query mDatabaseRef;
-    private List<CategoryModel> _categoryModel;
-    private   RecyclerView _rvCategory;
-    private FirebaseAuth mAuth;
+    public FragmentHomeBinding binding;
+    public CategoryAdapter _categoryAdapter;
+    public List<CategoryModel> _categoryModel;
+    public RecyclerView _rvCategory;
+    public FirebaseAuth mAuth;
+    public FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public DatabaseReference myRef = database.getReference("Conf/Exceptions");
+    public TextView txt_UserHome;
+    public ImageView img_UserHome;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        _rvCategory = root.findViewById(R.id.rv_Category);
+        _categoryModel = new ArrayList<>();
+        txt_UserHome = root.findViewById(R.id.txt_userhome);
+        img_UserHome = root.findViewById(R.id.img_userhome);
+
+
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (mAuth != null) {
+            txt_UserHome.setText(currentUser.getDisplayName());
+            Glide.with(this).load(currentUser.getPhotoUrl()).into(img_UserHome);
 
-        _rvCategory= (RecyclerView) root.findViewById(R.id.rv_Category);
-        _categoryModel = new ArrayList<>();
-        TextView txt_userhome = root.findViewById(R.id.txt_userhome);
-        ImageView img_userhome = root.findViewById(R.id.img_userhome);
+            setHasOptionsMenu(true);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+            //  ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff00DDED));
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ada3cc")));
 
-        txt_userhome.setText(currentUser.getDisplayName());
-        Glide.with(this).load(currentUser.getPhotoUrl()).into(img_userhome);
-
-        setHasOptionsMenu(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //  ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xff00DDED));
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ada3cc")));
-
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            // Mostrar el botón de navegación "Up"
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setTitle("Home");
-            // Establecer el ícono del botón de navegación "Up"
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setTitle("Home");
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+            }
         }
         return root;
     }
@@ -92,54 +90,48 @@ public class HomeFragment extends Fragment implements CategoryAdapter.ItemClickL
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        try {
+        if (mAuth != null) {
             getCategories();
         }
-        catch (Exception exception){
-            //do method to try save errors
-            Log.d(TAG, exception.toString());
-        }
     }
-    //private CategoryAdapter.ItemClickListener clickListener;
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //switch (item.getItemId()) {
-          //  case R.id.home_buscar:  {
-                // Navigate to settings screen.
-            //    return true;
-           // }
-           // default:
-                return super.onOptionsItemSelected(item);
-       // }
-
+        return super.onOptionsItemSelected(item);
     }
 
     private void getCategories() {
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Conf/Categories").limitToFirst(6);
+        Query mDatabaseRef = FirebaseDatabase.getInstance().getReference("Conf/Categories").limitToFirst(6);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                _categoryModel.removeAll(_categoryModel);
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    CategoryModel img = snapshot.getValue(CategoryModel.class);
-                    _categoryModel.add(img);
+                try {
+                    _categoryModel.removeAll(_categoryModel);
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        CategoryModel img = snapshot.getValue(CategoryModel.class);
+                        _categoryModel.add(img);
+                    }
+                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+                    _rvCategory.setLayoutManager(layoutManager);
+                    _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel, HomeFragment.this);
+                    _rvCategory.setAdapter(_categoryAdapter);
+                } catch (Exception e) {
+                    myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.toString());
                 }
-                RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
-                _rvCategory.setLayoutManager(layoutManager);
-                _categoryAdapter = new CategoryAdapter(getActivity(), _categoryModel,HomeFragment.this);
-                _rvCategory.setAdapter(_categoryAdapter);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, databaseError.toString());
+                myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(databaseError.toString());
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

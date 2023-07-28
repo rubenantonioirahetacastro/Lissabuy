@@ -9,9 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -40,7 +43,9 @@ public class login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     SignInButton mSignInButtonGoogle;
-    private TextView txt_terms;
+    public TextView txt_terms, name_user;
+    public ImageView img_user;
+    public Button btn_continue;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Conf/Exceptions");
 
@@ -60,6 +65,10 @@ public class login extends AppCompatActivity {
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
         txt_terms = findViewById(R.id.txt_terms);
+        name_user = findViewById(R.id.name_user);
+        img_user = findViewById(R.id.img_user);
+        btn_continue = findViewById(R.id.btn_continue);
+
         txt_terms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +87,12 @@ public class login extends AppCompatActivity {
                 catch (Exception e){
                     myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.getMessage());
                 }
+            }
+        });
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                home();
             }
         });
     }
@@ -117,10 +132,18 @@ public class login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            if(user!= null){
+                                Glide.with(login.this).load(user.getPhotoUrl()).into(img_user);
+                                name_user.setText(user.getDisplayName());
+                                img_user.setVisibility(View.VISIBLE);
+                                name_user.setVisibility(View.VISIBLE);
+                                btn_continue.setVisibility(View.VISIBLE);
+                                mSignInButtonGoogle.setVisibility(View.GONE);
+                            }
+                            //updateUI(user);
                         } else {
                             myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(task.getException());
-                            updateUI(null);
+                            //updateUI(null);
                         }
                     }
                 });

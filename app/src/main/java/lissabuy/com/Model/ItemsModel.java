@@ -1,8 +1,11 @@
 package lissabuy.com.Model;
 
+import androidx.annotation.Keep;
+
 import java.util.HashMap;
 import java.util.List;
 
+@Keep
 public class ItemsModel {
     public String key;
     public int category_id;

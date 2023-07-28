@@ -27,6 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,6 +59,8 @@ public class ProductFragment extends Fragment {
     private CirclePageIndicator pagerIndicator;
     private ImagePagerAdapter imagePagerAdapter;
     private List<String> images;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Conf/Exceptions");
 
     private  TextView titleTextView,priceTextView, descriptionTextView;
     public ProductFragment() {
@@ -111,8 +114,8 @@ public class ProductFragment extends Fragment {
         try {
             getProduct();
         }
-        catch (Exception exception){
-            Log.d(TAG, exception.toString());
+        catch (Exception e){
+            myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(e.toString());
         }
     }
     private void getProduct() {
@@ -139,7 +142,7 @@ public class ProductFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                myRef.child(Calendar.getInstance().getTime().toString()).child(myRef.push().getKey()).setValue(error.getMessage());
             }
         });
     }
