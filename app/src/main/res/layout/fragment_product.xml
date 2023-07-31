@@ -6,102 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProductFragment">
 
-    <include
-        android:id="@+id/imageSwitcher"
+    <ScrollView
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        layout="@layout/viewpager_slide" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ln_buttonProduct"
-        android:layout_below="@id/imageSwitcher"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
+            <include
+                android:id="@+id/imageSwitcher"
+                layout="@layout/viewpager_slide"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/imageSwitcher"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Descripción" />
+
+                    <TextView
+                        android:id="@+id/priceTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/descriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#828282"
+                    android:textSize="12sp" />
+
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ln_buttonProduct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Descripción" />
+                android:layout_gravity="end"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="?android:attr/actionBarSize">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:id="@+id/priceTextView"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <ImageButton
+                    android:id="@+id/transparentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_gray_border"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_cart" />
+
+
+                <Button
+                    android:id="@+id/buttonWithText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/button_shape"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Comprar"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/titleTextView"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="#828282"
-            android:id="@+id/descriptionTextView"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/txt_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Producto prueba"
-        android:textColor="@color/black"
-        android:visibility="gone" />
-
-
-    <LinearLayout
-        android:id="@+id/ln_buttonProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="?android:attr/actionBarSize">
-
-        <ImageButton
-            android:id="@+id/transparentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_gray_border"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="12dp"
-            android:src="@drawable/ic_cart" />
-
-
-        <Button
-            android:id="@+id/buttonWithText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/button_shape"
-            android:text="Check Out!"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-
-    </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>

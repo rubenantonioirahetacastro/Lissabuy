@@ -15,8 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lissabuy"
         tools:targetApi="31">
+
         <activity
             android:name=".login"
+            android:theme="@style/Theme.Lissabuy2"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,8 +28,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
     </application>
+
+
 
 </manifest>

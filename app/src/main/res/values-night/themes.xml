@@ -1,17 +1,39 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Lissabuy" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+    <style name="Theme.Lissabuy" parent="Theme.AppCompat.Light">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
-        <item name="android:actionMenuTextColor">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+
         <!-- Customize your theme here. -->
+
+        <!-- Add the following line to set the Toolbar text color to red -->
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
+
+    <style name="Theme.Lissabuy2" parent="Theme.AppCompat.Light">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/endColor</item>
+        <item name="colorPrimaryDark">@color/endColor</item>
+
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+
+        <!-- Customize your theme here. -->
+
+        <!-- Add the following line to set the Toolbar text color to red -->
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+
 </resources>

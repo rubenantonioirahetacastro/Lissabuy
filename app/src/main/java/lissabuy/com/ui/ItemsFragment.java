@@ -142,7 +142,7 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
 
     @Override
     public void onItemClick(ItemsModel dataModel) {
-        Fragment fragment = ProductFragment.newInstance(dataModel.getKey(), "2");
+        Fragment fragment = ProductFragment.newInstance(dataModel.getKey(), dataModel.getTitle());
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.nav_host_fragment_activity_main, fragment);
         transaction.addToBackStack(null);

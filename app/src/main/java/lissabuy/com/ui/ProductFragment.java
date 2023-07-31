@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,11 +15,18 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +52,7 @@ import lissabuy.com.R;
  * Use the {@link ProductFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductFragment extends Fragment {
+public class ProductFragment extends Fragment implements OnMapReadyCallback {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,9 +69,11 @@ public class ProductFragment extends Fragment {
     private List<String> images;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Conf/Exceptions");
+    private GoogleMap mMap;
 
     private  TextView titleTextView,priceTextView, descriptionTextView;
     public ProductFragment() {
+        setHasOptionsMenu(true);
     }
 
     public static ProductFragment newInstance(String param1, String param2) {
@@ -82,6 +92,7 @@ public class ProductFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -89,11 +100,10 @@ public class ProductFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view=  inflater.inflate(R.layout.fragment_product, container, false);
 
-        TextView txt_product= view.findViewById(R.id.txt_product);
+
         titleTextView = view.findViewById(R.id.titleTextView);
         priceTextView = view.findViewById(R.id.priceTextView);
         descriptionTextView = view.findViewById(R.id.descriptionTextView);
-        txt_product.setText(mParam1);
 
         viewPager = (ViewPager) view.findViewById(R.id.pager);
         pagerIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
@@ -103,7 +113,13 @@ public class ProductFragment extends Fragment {
         viewPager.setAdapter(imagePagerAdapter);
         pagerIndicator.setViewPager(viewPager);
 
+
+
         images = new ArrayList<>();
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         return view;
     }
@@ -112,6 +128,12 @@ public class ProductFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setTitle(mParam2);
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_up_arrow);
+            }
             getProduct();
         }
         catch (Exception e){
@@ -123,7 +145,7 @@ public class ProductFragment extends Fragment {
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot snapshot = dataSnapshot.child("4feef-default");
+                DataSnapshot snapshot = dataSnapshot.child(mParam1);
                 ItemsModel product = snapshot.getValue(ItemsModel.class);
 
                 titleTextView.setText(product.getTitle());
@@ -147,20 +169,26 @@ public class ProductFragment extends Fragment {
         });
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            getActivity().onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
 
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng( 13.591255, -89.289661);
+        mMap.addMarker(new MarkerOptions()
+                .position(sydney)
+                .title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

@@ -10,9 +10,18 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorGray">#CCC</color>
 
+    <color name="startColor">#8930b2</color>
+    <color name="centerColor">#381069</color>
+    <color name="endColor">#0d0419</color>
+
     <!-- Circle Page Indicator -->
-    <color name="default_circle_indicator_fill_color">@color/colorPrimary</color>
+    <color name="default_circle_indicator_fill_color">@color/centerColor</color>
     <color name="default_circle_indicator_page_color">@color/white</color>
     <color name="default_circle_indicator_stroke_color">@android:color/transparent</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 
 </resources>
