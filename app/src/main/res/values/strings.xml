@@ -13,4 +13,6 @@
     <string name="title_activity_signin">Signin</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="google_directions_key">AIzaSyCB925VhBE63mkKSyJl9XUKCBm5zuxHXJM</string>
 </resources>

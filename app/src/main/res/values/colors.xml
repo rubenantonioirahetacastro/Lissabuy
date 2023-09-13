@@ -3,25 +3,33 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorMorado">#6853a0</color>
 
-    <color name="colorPrimary">#ada3cc</color>
     <color name="colorPrimaryDark">#254b5e</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="colorGray">#CCC</color>
 
     <color name="startColor">#8930b2</color>
     <color name="centerColor">#381069</color>
     <color name="endColor">#0d0419</color>
+    <color name="background">#dddddd</color>
 
     <!-- Circle Page Indicator -->
-    <color name="default_circle_indicator_fill_color">@color/centerColor</color>
-    <color name="default_circle_indicator_page_color">@color/white</color>
+    <color name="default_circle_indicator_fill_color">@color/colorPrimaryDark</color>
+    <color name="default_circle_indicator_page_color">#CFD8DC</color>
     <color name="default_circle_indicator_stroke_color">@android:color/transparent</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+
+    <color name="primary_color">#6200EE</color>
+    <color name="primary_dark_color">#3700B3</color>
+    <color name="accent_color">#03DAC5</color>
+    <color name="color_chip_background">#E0E0E0</color> <!-- Color de fondo normal -->
+    <color name="chip_background_color">#E0E0E0</color>
+    <color name="chip_text_color">#000000</color>
+    <color name="selected_chip_color">#254b5e</color>
+    <color name="unselected_chip_color">#F5F5F5</color>
+
 
 </resources>

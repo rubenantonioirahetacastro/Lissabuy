@@ -148,4 +148,19 @@ public class ItemsFragment extends Fragment implements ItemsAdapter.ItemClickLis
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

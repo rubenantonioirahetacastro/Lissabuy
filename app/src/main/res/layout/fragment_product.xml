@@ -6,10 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.ProductFragment">
 
-    <ScrollView
-        android:layout_alignParentTop="true"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Adding 7 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/category_placeholder_layout" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +51,7 @@
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -38,24 +60,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:text="Descripción" />
+                        android:text="Descripción"
+                        android:textColor="@color/black" />
 
-                    <TextView
-                        android:id="@+id/priceTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/descriptionTextView"
@@ -65,12 +73,32 @@
                     android:textColor="#828282"
                     android:textSize="12sp" />
 
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="175dp" />
+                    android:layout_height="match_parent"
+                    android:text="Size"
+                    android:textColor="@color/black" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@drawable/chip_background_selector"
+                    app:chipSpacing="5dp"
+                    app:singleLine="false"
+                    app:singleSelection="true">
+
+
+                </com.google.android.material.chip.ChipGroup>
+
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="175dp"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -81,7 +109,8 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="?android:attr/actionBarSize">
+                android:layout_marginBottom="?android:attr/actionBarSize"
+                android:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/transparentButton"

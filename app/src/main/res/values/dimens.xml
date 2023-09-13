@@ -7,4 +7,9 @@
     <dimen name="viewpager_circleindicator_radius">4.5dp</dimen>
     <dimen name="default_circle_indicator_radius">4dp</dimen>
     <dimen name="default_circle_indicator_stroke_width">0dp</dimen>
+
+    <dimen name="activityPadding">16dp</dimen>
+    <dimen name="placeholderImage">60dp</dimen>
+    <dimen name="placeholderTextHeight">8dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
 </resources>
